@@ -1,10 +1,16 @@
-"""M1 baseline models: naive baselines, ridge, XGBoost, plus tautology ablations.
+"""Baseline models: naive baselines, ridge, logit-link ridge, XGBoost, plus tautology ablations.
+
+M1 used ridge + XGBoost (results/m1_*, preregistration.json). M2 adds the
+logit-link ridge as the "reconstructed formula" model: recovery is bounded
+0-100, and plain ridge extrapolated to impossible values (-47) on held-out
+nights with out-of-range HRV. Fitting on logit(recovery/100) keeps the model
+exactly additive (in logit units) while saturating like the real score.
 
 Two modes:
   python src/train_baselines.py                  -> time-series CV on the TRAINING period only
   python src/train_baselines.py --evaluate-test  -> one-off evaluation on the held-out post-gap
                                                     period; refuses to run until the thresholds in
-                                                    preregistration.json are filled in AND committed
+                                                    preregistration_m2.json are filled in AND committed
 
 The test period is never touched in the default mode, so CV results can be
 studied freely without contaminating the held-out check.
@@ -19,6 +25,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn.compose import TransformedTargetRegressor
 from sklearn.impute import SimpleImputer
 from sklearn.linear_model import RidgeCV
 from sklearn.metrics import mean_absolute_error, r2_score
@@ -29,13 +36,16 @@ from xgboost import XGBRegressor
 
 ROOT = Path(__file__).resolve().parent.parent
 FEATURES_PATH = ROOT / "data" / "processed" / "features.csv"
-PREREG_PATH = ROOT / "preregistration.json"
+RUN_TAG = "m2"                                      # output prefix; M1 files are kept as history
+PREREG_PATH = ROOT / f"preregistration_{RUN_TAG}.json"
 RESULTS_DIR = ROOT / "results"                      # aggregate metrics only -> safe to commit
 PRIVATE_DIR = ROOT / "data" / "processed"           # per-cycle predictions -> git-ignored
 TARGET = "recovery_score"
 SEED = 42
 
 CV_CONFIG = {"n_splits": 5, "test_size": 40}        # 5 expanding folds, 40 cycles each
+MODEL_KINDS = ["ridge", "logit_ridge", "xgboost"]
+LOGIT_EPS = 0.5                                     # clip to [0.5, 99.5] so logit stays finite
 
 # --- Feature sets ---------------------------------------------------------
 HRV = ["hrv_rmssd_milli", "hrv_vs_baseline", "hrv_pct_vs_baseline"]
@@ -59,7 +69,20 @@ FEATURE_SETS = {
 }
 
 
+def logit_pct(y):
+    p = np.clip(np.asarray(y, dtype=float), LOGIT_EPS, 100 - LOGIT_EPS) / 100
+    return np.log(p / (1 - p))
+
+
+def inv_logit_pct(z):
+    return 100 / (1 + np.exp(-np.asarray(z, dtype=float)))
+
+
 def make_model(kind):
+    if kind == "logit_ridge":
+        # same ridge, fitted on logit(recovery/100); predictions mapped back to 0-100
+        return TransformedTargetRegressor(regressor=make_model("ridge"), func=logit_pct,
+                                          inverse_func=inv_logit_pct, check_inverse=False)
     if kind == "ridge":
         # scaled so the penalty treats all features equally; alpha picked by internal CV
         return make_pipeline(SimpleImputer(strategy="median"), StandardScaler(),
@@ -88,7 +111,7 @@ def predict_all(train, test):
         "naive_previous": test["prev_recovery_score"].fillna(train[TARGET].mean()).to_numpy(),
     }
     for set_name, cols in FEATURE_SETS.items():
-        for kind in ["ridge", "xgboost"]:
+        for kind in MODEL_KINDS:
             model = make_model(kind).fit(train[cols], train[TARGET])
             preds[f"{kind}__{set_name}"] = model.predict(test[cols])
     return preds
@@ -131,12 +154,13 @@ def evaluate_test(train, test, prereg):
     preds = predict_all(train, test)
     results = pd.DataFrame([{"model": n, **score(test[TARGET], p)} for n, p in preds.items()])
     results = results.sort_values("mae").round(3)
-    primary = results.set_index("model").loc["xgboost__set_b_full"]
-    reference = results.set_index("model").loc["xgboost__hrv_only"]
+    by_model = results.set_index("model")
+    primary = by_model.loc[prereg["primary_model"]]
+    flexible = by_model.loc[prereg["flexible_model"]]
     checks = {
         "mae_within_threshold": primary["mae"] <= prereg["max_test_mae_points"],
         "r2_above_threshold": primary["r2"] >= prereg["min_test_r2"],
-        "beats_hrv_only_by_margin": reference["mae"] - primary["mae"] >= prereg["min_mae_gain_over_hrv_only_points"],
+        "close_to_flexible_model": primary["mae"] - flexible["mae"] <= prereg["max_mae_gap_to_flexible_points"],
         "no_leakage_alarm": primary["r2"] < prereg["leakage_alarm_r2"],
     }
     return results, checks
@@ -153,19 +177,19 @@ def main():
 
     if not args.evaluate_test:
         folds, summary, oof = run_cv(train)
-        folds.round(3).to_csv(RESULTS_DIR / "m1_cv_folds.csv", index=False)
-        summary.to_csv(RESULTS_DIR / "m1_cv_summary.csv")
-        oof.to_csv(PRIVATE_DIR / "m1_cv_predictions.csv", index=False)
+        folds.round(3).to_csv(RESULTS_DIR / f"{RUN_TAG}_cv_folds.csv", index=False)
+        summary.to_csv(RESULTS_DIR / f"{RUN_TAG}_cv_summary.csv")
+        oof.to_csv(PRIVATE_DIR / f"{RUN_TAG}_cv_predictions.csv", index=False)
         print("\nTime-series CV on the training period (test set untouched):")
         print(summary.to_string())
         return
 
     prereg = check_preregistration()
     results, checks = evaluate_test(train, test, prereg)
-    results.to_csv(RESULTS_DIR / "m1_test_results.csv", index=False)
+    results.to_csv(RESULTS_DIR / f"{RUN_TAG}_test_results.csv", index=False)
     print("\nHeld-out test results:")
     print(results.to_string(index=False))
-    print("\nPre-registered checks (primary = xgboost__set_b_full):")
+    print(f"\nPre-registered checks (primary = {prereg['primary_model']}):")
     for name, passed in checks.items():
         print(f"  {'PASS' if passed else 'FAIL'}  {name}")
 

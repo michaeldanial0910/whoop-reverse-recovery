@@ -28,6 +28,12 @@ CONFIG = {
     "test_start_local": "2026-07-30",
     # recovery scores treated as unusable (Michael's decision 2026-10-03)
     "drop_scores": [1.0],
+    # a "nap" longer than this is almost certainly a main sleep WHOOP misclassified
+    # (seen 2026-03-30: an 8.7 h "nap" left that cycle without a recovery score and
+    # gave the NEXT cycle an 8.7 h nap credit, i.e. a sleep need of 1.2 h).
+    # WHOOP's nap credit equals the previous cycle's nap sleep exactly, so the next
+    # cycle's sleep-need inputs are corrupted -> exclude that next cycle.
+    "max_plausible_nap_hours": 6.0,
 }
 
 BASELINE_COLS = {
@@ -96,6 +102,8 @@ def add_exclusion_flags(df):
     reason[df["recovery_score"].isna()] = "no_recovery"
     reason[(reason == "") & (df["user_calibrating"] == True)] = "calibrating"
     reason[(reason == "") & df["recovery_score"].isin(CONFIG["drop_scores"])] = "dropped_score"
+    misclassified = df["prior_nap_hours"] > CONFIG["max_plausible_nap_hours"]
+    reason[(reason == "") & misclassified] = "prior_nap_misclassified"
     reason[(reason == "") & df["hrv_baseline"].isna()] = "no_baseline_yet"
     df["exclude_reason"] = reason
     df["is_test"] = df["cycle_start_local"] >= pd.Timestamp(CONFIG["test_start_local"])

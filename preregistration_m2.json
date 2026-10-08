@@ -1,0 +1,10 @@
+{
+  "_purpose": "M2 acceptance thresholds for the logit-link ridge ('reconstructed formula') on the held-out post-gap test set, fixed BEFORE evaluation. NOT BLIND: the M1 test residuals of plain ridge were inspected on 2026-10-08 to diagnose its failure (bounded target + out-of-range HRV), which motivated the logit link. Model and thresholds were chosen on training-period CV only.",
+  "primary_model": "logit_ridge__set_b_full",
+  "flexible_model": "xgboost__set_b_full",
+  "max_test_mae_points": 8.5,
+  "min_test_r2": 0.75,
+  "max_mae_gap_to_flexible_points": 2.0,
+  "leakage_alarm_r2": 0.97,
+  "data_change_since_m1": "one training cycle excluded by the new prior_nap_misclassified rule (features.py)"
+}
