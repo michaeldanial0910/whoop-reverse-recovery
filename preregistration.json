@@ -2,8 +2,8 @@
   "_purpose": "Acceptance thresholds for the held-out (post-gap) test set, fixed BEFORE the test set is evaluated. train_baselines.py --evaluate-test refuses to run while any threshold is null or this file has uncommitted changes.",
   "primary_model": "xgboost on set_b_full",
   "comparison_model": "xgboost on hrv_only",
-  "max_test_mae_points": null,
-  "min_test_r2": null,
-  "min_mae_gain_over_hrv_only_points": null,
-  "leakage_alarm_r2": null
+  "max_test_mae_points": 9,
+  "min_test_r2": 0.7,
+  "min_mae_gain_over_hrv_only_points": 2,
+  "leakage_alarm_r2": 0.97
 }
