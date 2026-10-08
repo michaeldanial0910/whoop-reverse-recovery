@@ -1,0 +1,13 @@
+model,mae,r2
+xgboost__set_b_full,5.923,0.881
+ridge__set_b_full,9.853,0.595
+ridge__hrv_only,9.966,0.527
+xgboost__physiology,10.442,0.534
+ridge__physiology,10.586,0.464
+ridge__hrv_rhr,10.687,0.451
+xgboost__hrv_rhr,11.013,0.526
+xgboost__hrv_only,11.052,0.499
+xgboost__set_b_no_hrv,13.502,0.453
+ridge__set_b_no_hrv,13.848,0.346
+naive_mean,16.914,-0.0
+naive_previous,17.204,-0.245
