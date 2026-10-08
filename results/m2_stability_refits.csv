@@ -1,0 +1,551 @@
+model,refit,group,share_of_attribution,share_of_daily_moves
+formula,fold_0,HRV,0.4275,0.3571
+formula,fold_0,Resting HR,0.0633,0.0667
+formula,fold_0,Respiratory rate,0.0215,0.0196
+formula,fold_0,Skin temp,0.0377,0.0339
+formula,fold_0,SpO2,0.0278,0.0318
+formula,fold_0,Sleep amount vs need,0.2029,0.2159
+formula,fold_0,Sleep stages,0.089,0.094
+formula,fold_0,Sleep quality,0.0221,0.0338
+formula,fold_0,Sleep consistency,0.011,0.0099
+formula,fold_0,Prior load,0.063,0.0804
+formula,fold_0,Day of week,0.0343,0.0569
+formula,fold_1,HRV,0.3955,0.3339
+formula,fold_1,Resting HR,0.0692,0.0726
+formula,fold_1,Respiratory rate,0.0235,0.022
+formula,fold_1,Skin temp,0.0367,0.0369
+formula,fold_1,SpO2,0.0252,0.029
+formula,fold_1,Sleep amount vs need,0.2209,0.2194
+formula,fold_1,Sleep stages,0.1012,0.1056
+formula,fold_1,Sleep quality,0.0329,0.0504
+formula,fold_1,Sleep consistency,0.0211,0.0187
+formula,fold_1,Prior load,0.0437,0.0565
+formula,fold_1,Day of week,0.03,0.0551
+formula,fold_2,HRV,0.4193,0.3539
+formula,fold_2,Resting HR,0.0554,0.0586
+formula,fold_2,Respiratory rate,0.034,0.036
+formula,fold_2,Skin temp,0.029,0.0302
+formula,fold_2,SpO2,0.0285,0.0329
+formula,fold_2,Sleep amount vs need,0.226,0.2257
+formula,fold_2,Sleep stages,0.0833,0.0887
+formula,fold_2,Sleep quality,0.0362,0.0569
+formula,fold_2,Sleep consistency,0.0251,0.0226
+formula,fold_2,Prior load,0.0263,0.041
+formula,fold_2,Day of week,0.037,0.0537
+formula,fold_3,HRV,0.4554,0.3786
+formula,fold_3,Resting HR,0.0609,0.0658
+formula,fold_3,Respiratory rate,0.0128,0.0156
+formula,fold_3,Skin temp,0.0305,0.0234
+formula,fold_3,SpO2,0.0202,0.0241
+formula,fold_3,Sleep amount vs need,0.2151,0.22
+formula,fold_3,Sleep stages,0.1048,0.1106
+formula,fold_3,Sleep quality,0.0244,0.0385
+formula,fold_3,Sleep consistency,0.0179,0.0166
+formula,fold_3,Prior load,0.0253,0.0401
+formula,fold_3,Day of week,0.0327,0.0667
+formula,fold_4,HRV,0.4854,0.4112
+formula,fold_4,Resting HR,0.045,0.0503
+formula,fold_4,Respiratory rate,0.0078,0.0065
+formula,fold_4,Skin temp,0.0334,0.0262
+formula,fold_4,SpO2,0.0059,0.0077
+formula,fold_4,Sleep amount vs need,0.2423,0.25
+formula,fold_4,Sleep stages,0.0838,0.0937
+formula,fold_4,Sleep quality,0.0265,0.0447
+formula,fold_4,Sleep consistency,0.0192,0.0187
+formula,fold_4,Prior load,0.0245,0.041
+formula,fold_4,Day of week,0.0263,0.0501
+formula,subsample_0,HRV,0.485,0.4126
+formula,subsample_0,Resting HR,0.049,0.0555
+formula,subsample_0,Respiratory rate,0.0129,0.0021
+formula,subsample_0,Skin temp,0.0187,0.0096
+formula,subsample_0,SpO2,0.0223,0.028
+formula,subsample_0,Sleep amount vs need,0.2234,0.235
+formula,subsample_0,Sleep stages,0.0945,0.1054
+formula,subsample_0,Sleep quality,0.0223,0.0367
+formula,subsample_0,Sleep consistency,0.0181,0.0178
+formula,subsample_0,Prior load,0.0313,0.0516
+formula,subsample_0,Day of week,0.0224,0.0456
+formula,subsample_1,HRV,0.4548,0.3917
+formula,subsample_1,Resting HR,0.0542,0.0602
+formula,subsample_1,Respiratory rate,0.0214,0.011
+formula,subsample_1,Skin temp,0.0206,0.0089
+formula,subsample_1,SpO2,0.0132,0.0166
+formula,subsample_1,Sleep amount vs need,0.2279,0.2349
+formula,subsample_1,Sleep stages,0.1008,0.1117
+formula,subsample_1,Sleep quality,0.0229,0.0385
+formula,subsample_1,Sleep consistency,0.0314,0.0301
+formula,subsample_1,Prior load,0.0207,0.0343
+formula,subsample_1,Day of week,0.032,0.0622
+formula,subsample_2,HRV,0.4664,0.3912
+formula,subsample_2,Resting HR,0.0757,0.0823
+formula,subsample_2,Respiratory rate,0.014,0.0088
+formula,subsample_2,Skin temp,0.0202,0.0173
+formula,subsample_2,SpO2,0.0013,0.0016
+formula,subsample_2,Sleep amount vs need,0.2171,0.2247
+formula,subsample_2,Sleep stages,0.1141,0.1259
+formula,subsample_2,Sleep quality,0.019,0.0284
+formula,subsample_2,Sleep consistency,0.0115,0.0111
+formula,subsample_2,Prior load,0.0363,0.058
+formula,subsample_2,Day of week,0.0244,0.0507
+formula,subsample_3,HRV,0.4543,0.3821
+formula,subsample_3,Resting HR,0.0486,0.0525
+formula,subsample_3,Respiratory rate,0.0139,0.0087
+formula,subsample_3,Skin temp,0.0344,0.0324
+formula,subsample_3,SpO2,0.0097,0.012
+formula,subsample_3,Sleep amount vs need,0.225,0.2268
+formula,subsample_3,Sleep stages,0.0939,0.1019
+formula,subsample_3,Sleep quality,0.0315,0.0506
+formula,subsample_3,Sleep consistency,0.0219,0.0203
+formula,subsample_3,Prior load,0.0276,0.0437
+formula,subsample_3,Day of week,0.0392,0.0691
+formula,subsample_4,HRV,0.4949,0.4199
+formula,subsample_4,Resting HR,0.0452,0.0502
+formula,subsample_4,Respiratory rate,0.0181,0.0049
+formula,subsample_4,Skin temp,0.0372,0.0351
+formula,subsample_4,SpO2,0.0208,0.0263
+formula,subsample_4,Sleep amount vs need,0.2167,0.2249
+formula,subsample_4,Sleep stages,0.0867,0.0991
+formula,subsample_4,Sleep quality,0.0196,0.0332
+formula,subsample_4,Sleep consistency,0.014,0.0137
+formula,subsample_4,Prior load,0.0198,0.033
+formula,subsample_4,Day of week,0.027,0.0598
+formula,subsample_5,HRV,0.4937,0.4189
+formula,subsample_5,Resting HR,0.0567,0.0638
+formula,subsample_5,Respiratory rate,0.0125,0.0108
+formula,subsample_5,Skin temp,0.0203,0.0103
+formula,subsample_5,SpO2,0.0083,0.0106
+formula,subsample_5,Sleep amount vs need,0.1866,0.1958
+formula,subsample_5,Sleep stages,0.1327,0.1466
+formula,subsample_5,Sleep quality,0.0277,0.0468
+formula,subsample_5,Sleep consistency,0.0145,0.0142
+formula,subsample_5,Prior load,0.0246,0.0405
+formula,subsample_5,Day of week,0.0223,0.0417
+formula,subsample_6,HRV,0.4659,0.3885
+formula,subsample_6,Resting HR,0.0529,0.0575
+formula,subsample_6,Respiratory rate,0.0097,0.0026
+formula,subsample_6,Skin temp,0.0189,0.0179
+formula,subsample_6,SpO2,0.011,0.0135
+formula,subsample_6,Sleep amount vs need,0.2027,0.209
+formula,subsample_6,Sleep stages,0.1137,0.1225
+formula,subsample_6,Sleep quality,0.0302,0.0486
+formula,subsample_6,Sleep consistency,0.0115,0.011
+formula,subsample_6,Prior load,0.0453,0.0702
+formula,subsample_6,Day of week,0.0382,0.0587
+formula,subsample_7,HRV,0.4842,0.4045
+formula,subsample_7,Resting HR,0.0528,0.0584
+formula,subsample_7,Respiratory rate,0.0146,0.012
+formula,subsample_7,Skin temp,0.0349,0.032
+formula,subsample_7,SpO2,0.0053,0.0067
+formula,subsample_7,Sleep amount vs need,0.1933,0.203
+formula,subsample_7,Sleep stages,0.1058,0.1158
+formula,subsample_7,Sleep quality,0.0222,0.0358
+formula,subsample_7,Sleep consistency,0.0205,0.0195
+formula,subsample_7,Prior load,0.0396,0.062
+formula,subsample_7,Day of week,0.0269,0.0503
+formula,subsample_8,HRV,0.4974,0.4154
+formula,subsample_8,Resting HR,0.0591,0.065
+formula,subsample_8,Respiratory rate,0.0147,0.01
+formula,subsample_8,Skin temp,0.0348,0.0317
+formula,subsample_8,SpO2,0.0074,0.0095
+formula,subsample_8,Sleep amount vs need,0.2146,0.2277
+formula,subsample_8,Sleep stages,0.0754,0.0901
+formula,subsample_8,Sleep quality,0.0222,0.0364
+formula,subsample_8,Sleep consistency,0.0161,0.0155
+formula,subsample_8,Prior load,0.0235,0.0389
+formula,subsample_8,Day of week,0.0348,0.0599
+formula,subsample_9,HRV,0.4714,0.4022
+formula,subsample_9,Resting HR,0.0605,0.0663
+formula,subsample_9,Respiratory rate,0.0165,0.0053
+formula,subsample_9,Skin temp,0.0284,0.0242
+formula,subsample_9,SpO2,0.0042,0.0055
+formula,subsample_9,Sleep amount vs need,0.2183,0.2279
+formula,subsample_9,Sleep stages,0.1004,0.111
+formula,subsample_9,Sleep quality,0.0247,0.0348
+formula,subsample_9,Sleep consistency,0.016,0.0154
+formula,subsample_9,Prior load,0.0283,0.0467
+formula,subsample_9,Day of week,0.0312,0.0605
+formula,subsample_10,HRV,0.4713,0.3967
+formula,subsample_10,Resting HR,0.0374,0.0417
+formula,subsample_10,Respiratory rate,0.0054,0.0069
+formula,subsample_10,Skin temp,0.0299,0.026
+formula,subsample_10,SpO2,0.017,0.0208
+formula,subsample_10,Sleep amount vs need,0.2271,0.2354
+formula,subsample_10,Sleep stages,0.1059,0.1162
+formula,subsample_10,Sleep quality,0.015,0.0249
+formula,subsample_10,Sleep consistency,0.0298,0.0281
+formula,subsample_10,Prior load,0.0417,0.0653
+formula,subsample_10,Day of week,0.0196,0.0379
+formula,subsample_11,HRV,0.4873,0.4086
+formula,subsample_11,Resting HR,0.0416,0.0456
+formula,subsample_11,Respiratory rate,0.0104,0.005
+formula,subsample_11,Skin temp,0.0239,0.0244
+formula,subsample_11,SpO2,0.0112,0.0142
+formula,subsample_11,Sleep amount vs need,0.2207,0.2259
+formula,subsample_11,Sleep stages,0.0997,0.1091
+formula,subsample_11,Sleep quality,0.0251,0.0394
+formula,subsample_11,Sleep consistency,0.0223,0.0213
+formula,subsample_11,Prior load,0.0339,0.0543
+formula,subsample_11,Day of week,0.0238,0.0523
+formula,subsample_12,HRV,0.4549,0.3865
+formula,subsample_12,Resting HR,0.0478,0.0534
+formula,subsample_12,Respiratory rate,0.0197,0.02
+formula,subsample_12,Skin temp,0.0263,0.0246
+formula,subsample_12,SpO2,0.012,0.0149
+formula,subsample_12,Sleep amount vs need,0.2317,0.239
+formula,subsample_12,Sleep stages,0.1018,0.111
+formula,subsample_12,Sleep quality,0.0253,0.0414
+formula,subsample_12,Sleep consistency,0.0382,0.0357
+formula,subsample_12,Prior load,0.0284,0.0461
+formula,subsample_12,Day of week,0.0139,0.0272
+formula,subsample_13,HRV,0.4843,0.4099
+formula,subsample_13,Resting HR,0.0281,0.0318
+formula,subsample_13,Respiratory rate,0.0165,0.0212
+formula,subsample_13,Skin temp,0.0316,0.0243
+formula,subsample_13,SpO2,0.0124,0.0157
+formula,subsample_13,Sleep amount vs need,0.2373,0.2426
+formula,subsample_13,Sleep stages,0.0869,0.0999
+formula,subsample_13,Sleep quality,0.0304,0.0505
+formula,subsample_13,Sleep consistency,0.0206,0.0199
+formula,subsample_13,Prior load,0.0236,0.0389
+formula,subsample_13,Day of week,0.0282,0.0453
+formula,subsample_14,HRV,0.5122,0.43
+formula,subsample_14,Resting HR,0.0601,0.0679
+formula,subsample_14,Respiratory rate,0.0134,0.0036
+formula,subsample_14,Skin temp,0.0298,0.031
+formula,subsample_14,SpO2,0.0067,0.0088
+formula,subsample_14,Sleep amount vs need,0.228,0.2439
+formula,subsample_14,Sleep stages,0.0629,0.0742
+formula,subsample_14,Sleep quality,0.0077,0.0113
+formula,subsample_14,Sleep consistency,0.0152,0.015
+formula,subsample_14,Prior load,0.0378,0.0621
+formula,subsample_14,Day of week,0.0261,0.0521
+formula,subsample_15,HRV,0.4832,0.3993
+formula,subsample_15,Resting HR,0.0485,0.0529
+formula,subsample_15,Respiratory rate,0.0125,0.008
+formula,subsample_15,Skin temp,0.0127,0.0084
+formula,subsample_15,SpO2,0.0145,0.0178
+formula,subsample_15,Sleep amount vs need,0.2098,0.2157
+formula,subsample_15,Sleep stages,0.1091,0.1177
+formula,subsample_15,Sleep quality,0.0286,0.0456
+formula,subsample_15,Sleep consistency,0.0172,0.0163
+formula,subsample_15,Prior load,0.0321,0.0504
+formula,subsample_15,Day of week,0.0318,0.0679
+formula,subsample_16,HRV,0.4816,0.4108
+formula,subsample_16,Resting HR,0.056,0.0619
+formula,subsample_16,Respiratory rate,0.0193,0.0174
+formula,subsample_16,Skin temp,0.0248,0.0178
+formula,subsample_16,SpO2,0.007,0.0091
+formula,subsample_16,Sleep amount vs need,0.2276,0.2405
+formula,subsample_16,Sleep stages,0.0892,0.1006
+formula,subsample_16,Sleep quality,0.0085,0.0147
+formula,subsample_16,Sleep consistency,0.0233,0.0227
+formula,subsample_16,Prior load,0.0276,0.0452
+formula,subsample_16,Day of week,0.0351,0.0594
+formula,subsample_17,HRV,0.4701,0.4007
+formula,subsample_17,Resting HR,0.0524,0.0573
+formula,subsample_17,Respiratory rate,0.0128,0.0021
+formula,subsample_17,Skin temp,0.0314,0.0324
+formula,subsample_17,SpO2,0.0282,0.0344
+formula,subsample_17,Sleep amount vs need,0.229,0.2377
+formula,subsample_17,Sleep stages,0.0898,0.1008
+formula,subsample_17,Sleep quality,0.0123,0.0202
+formula,subsample_17,Sleep consistency,0.0131,0.0127
+formula,subsample_17,Prior load,0.0259,0.0427
+formula,subsample_17,Day of week,0.0349,0.059
+formula,subsample_18,HRV,0.4628,0.3989
+formula,subsample_18,Resting HR,0.0575,0.0642
+formula,subsample_18,Respiratory rate,0.0185,0.0031
+formula,subsample_18,Skin temp,0.0245,0.0133
+formula,subsample_18,SpO2,0.0109,0.014
+formula,subsample_18,Sleep amount vs need,0.223,0.2326
+formula,subsample_18,Sleep stages,0.0999,0.1119
+formula,subsample_18,Sleep quality,0.0262,0.0446
+formula,subsample_18,Sleep consistency,0.0139,0.0137
+formula,subsample_18,Prior load,0.0237,0.0396
+formula,subsample_18,Day of week,0.0391,0.0641
+formula,subsample_19,HRV,0.4751,0.394
+formula,subsample_19,Resting HR,0.0354,0.0387
+formula,subsample_19,Respiratory rate,0.0163,0.0154
+formula,subsample_19,Skin temp,0.0253,0.0236
+formula,subsample_19,SpO2,0.0171,0.0204
+formula,subsample_19,Sleep amount vs need,0.1929,0.1961
+formula,subsample_19,Sleep stages,0.1175,0.128
+formula,subsample_19,Sleep quality,0.0267,0.042
+formula,subsample_19,Sleep consistency,0.0231,0.0213
+formula,subsample_19,Prior load,0.0389,0.0596
+formula,subsample_19,Day of week,0.0318,0.0609
+xgboost,fold_0,HRV,0.5079,0.4834
+xgboost,fold_0,Resting HR,0.0059,0.0116
+xgboost,fold_0,Respiratory rate,0.0172,0.0295
+xgboost,fold_0,Skin temp,0.0363,0.0606
+xgboost,fold_0,SpO2,0.0082,0.0181
+xgboost,fold_0,Sleep amount vs need,0.3149,0.1962
+xgboost,fold_0,Sleep stages,0.0384,0.0618
+xgboost,fold_0,Sleep quality,0.0345,0.0624
+xgboost,fold_0,Sleep consistency,0.0142,0.0227
+xgboost,fold_0,Prior load,0.0175,0.0403
+xgboost,fold_0,Day of week,0.0049,0.0133
+xgboost,fold_1,HRV,0.4769,0.4603
+xgboost,fold_1,Resting HR,0.0109,0.0192
+xgboost,fold_1,Respiratory rate,0.0407,0.0548
+xgboost,fold_1,Skin temp,0.0325,0.0517
+xgboost,fold_1,SpO2,0.0099,0.0169
+xgboost,fold_1,Sleep amount vs need,0.3289,0.2224
+xgboost,fold_1,Sleep stages,0.0393,0.0603
+xgboost,fold_1,Sleep quality,0.0243,0.0433
+xgboost,fold_1,Sleep consistency,0.0156,0.0227
+xgboost,fold_1,Prior load,0.0164,0.036
+xgboost,fold_1,Day of week,0.0048,0.0125
+xgboost,fold_2,HRV,0.4686,0.451
+xgboost,fold_2,Resting HR,0.0159,0.0229
+xgboost,fold_2,Respiratory rate,0.0455,0.0579
+xgboost,fold_2,Skin temp,0.0342,0.0497
+xgboost,fold_2,SpO2,0.008,0.0153
+xgboost,fold_2,Sleep amount vs need,0.3304,0.231
+xgboost,fold_2,Sleep stages,0.0327,0.054
+xgboost,fold_2,Sleep quality,0.029,0.0512
+xgboost,fold_2,Sleep consistency,0.0204,0.0289
+xgboost,fold_2,Prior load,0.0088,0.0198
+xgboost,fold_2,Day of week,0.0066,0.0185
+xgboost,fold_3,HRV,0.4687,0.4514
+xgboost,fold_3,Resting HR,0.0219,0.031
+xgboost,fold_3,Respiratory rate,0.0237,0.0385
+xgboost,fold_3,Skin temp,0.0332,0.0461
+xgboost,fold_3,SpO2,0.0105,0.0212
+xgboost,fold_3,Sleep amount vs need,0.324,0.2113
+xgboost,fold_3,Sleep stages,0.0456,0.0739
+xgboost,fold_3,Sleep quality,0.0318,0.0533
+xgboost,fold_3,Sleep consistency,0.0202,0.0304
+xgboost,fold_3,Prior load,0.0167,0.0338
+xgboost,fold_3,Day of week,0.0038,0.0092
+xgboost,fold_4,HRV,0.4635,0.4546
+xgboost,fold_4,Resting HR,0.0233,0.0374
+xgboost,fold_4,Respiratory rate,0.0224,0.0378
+xgboost,fold_4,Skin temp,0.0372,0.052
+xgboost,fold_4,SpO2,0.0185,0.0282
+xgboost,fold_4,Sleep amount vs need,0.3284,0.2169
+xgboost,fold_4,Sleep stages,0.0397,0.0606
+xgboost,fold_4,Sleep quality,0.0288,0.0437
+xgboost,fold_4,Sleep consistency,0.0127,0.0197
+xgboost,fold_4,Prior load,0.0204,0.0352
+xgboost,fold_4,Day of week,0.0051,0.014
+xgboost,subsample_0,HRV,0.4658,0.4435
+xgboost,subsample_0,Resting HR,0.0452,0.055
+xgboost,subsample_0,Respiratory rate,0.0195,0.0323
+xgboost,subsample_0,Skin temp,0.0418,0.0584
+xgboost,subsample_0,SpO2,0.0207,0.0299
+xgboost,subsample_0,Sleep amount vs need,0.3019,0.2137
+xgboost,subsample_0,Sleep stages,0.0416,0.0599
+xgboost,subsample_0,Sleep quality,0.0242,0.0367
+xgboost,subsample_0,Sleep consistency,0.0104,0.0168
+xgboost,subsample_0,Prior load,0.0243,0.0442
+xgboost,subsample_0,Day of week,0.0048,0.0096
+xgboost,subsample_1,HRV,0.4816,0.4643
+xgboost,subsample_1,Resting HR,0.0231,0.0388
+xgboost,subsample_1,Respiratory rate,0.0193,0.0324
+xgboost,subsample_1,Skin temp,0.0311,0.0441
+xgboost,subsample_1,SpO2,0.0283,0.0299
+xgboost,subsample_1,Sleep amount vs need,0.3023,0.2114
+xgboost,subsample_1,Sleep stages,0.0472,0.0698
+xgboost,subsample_1,Sleep quality,0.0392,0.0572
+xgboost,subsample_1,Sleep consistency,0.0102,0.0138
+xgboost,subsample_1,Prior load,0.0141,0.0279
+xgboost,subsample_1,Day of week,0.0036,0.0103
+xgboost,subsample_2,HRV,0.4636,0.4491
+xgboost,subsample_2,Resting HR,0.0369,0.0516
+xgboost,subsample_2,Respiratory rate,0.0201,0.0381
+xgboost,subsample_2,Skin temp,0.0479,0.0612
+xgboost,subsample_2,SpO2,0.0137,0.0229
+xgboost,subsample_2,Sleep amount vs need,0.3069,0.2181
+xgboost,subsample_2,Sleep stages,0.0485,0.0611
+xgboost,subsample_2,Sleep quality,0.0333,0.0417
+xgboost,subsample_2,Sleep consistency,0.0107,0.0145
+xgboost,subsample_2,Prior load,0.0153,0.0332
+xgboost,subsample_2,Day of week,0.0032,0.0087
+xgboost,subsample_3,HRV,0.4614,0.4447
+xgboost,subsample_3,Resting HR,0.0303,0.0441
+xgboost,subsample_3,Respiratory rate,0.0178,0.0315
+xgboost,subsample_3,Skin temp,0.048,0.0636
+xgboost,subsample_3,SpO2,0.016,0.0239
+xgboost,subsample_3,Sleep amount vs need,0.3086,0.2138
+xgboost,subsample_3,Sleep stages,0.0509,0.0717
+xgboost,subsample_3,Sleep quality,0.0327,0.0504
+xgboost,subsample_3,Sleep consistency,0.0156,0.0186
+xgboost,subsample_3,Prior load,0.0152,0.0301
+xgboost,subsample_3,Day of week,0.0036,0.0077
+xgboost,subsample_4,HRV,0.4599,0.4425
+xgboost,subsample_4,Resting HR,0.0422,0.052
+xgboost,subsample_4,Respiratory rate,0.0202,0.0326
+xgboost,subsample_4,Skin temp,0.0399,0.0562
+xgboost,subsample_4,SpO2,0.0268,0.0348
+xgboost,subsample_4,Sleep amount vs need,0.3103,0.2167
+xgboost,subsample_4,Sleep stages,0.0437,0.0593
+xgboost,subsample_4,Sleep quality,0.0284,0.0463
+xgboost,subsample_4,Sleep consistency,0.0063,0.0107
+xgboost,subsample_4,Prior load,0.0131,0.0254
+xgboost,subsample_4,Day of week,0.0091,0.0235
+xgboost,subsample_5,HRV,0.4737,0.4495
+xgboost,subsample_5,Resting HR,0.0389,0.0489
+xgboost,subsample_5,Respiratory rate,0.0218,0.0365
+xgboost,subsample_5,Skin temp,0.0339,0.0428
+xgboost,subsample_5,SpO2,0.02,0.026
+xgboost,subsample_5,Sleep amount vs need,0.2957,0.2047
+xgboost,subsample_5,Sleep stages,0.0494,0.0682
+xgboost,subsample_5,Sleep quality,0.0329,0.0539
+xgboost,subsample_5,Sleep consistency,0.006,0.0101
+xgboost,subsample_5,Prior load,0.0223,0.0455
+xgboost,subsample_5,Day of week,0.0053,0.0138
+xgboost,subsample_6,HRV,0.4543,0.4268
+xgboost,subsample_6,Resting HR,0.0225,0.033
+xgboost,subsample_6,Respiratory rate,0.0254,0.0401
+xgboost,subsample_6,Skin temp,0.0414,0.0557
+xgboost,subsample_6,SpO2,0.014,0.0216
+xgboost,subsample_6,Sleep amount vs need,0.3038,0.2164
+xgboost,subsample_6,Sleep stages,0.0575,0.0754
+xgboost,subsample_6,Sleep quality,0.0391,0.0487
+xgboost,subsample_6,Sleep consistency,0.0087,0.013
+xgboost,subsample_6,Prior load,0.0283,0.0563
+xgboost,subsample_6,Day of week,0.0049,0.013
+xgboost,subsample_7,HRV,0.4595,0.4383
+xgboost,subsample_7,Resting HR,0.0244,0.036
+xgboost,subsample_7,Respiratory rate,0.0304,0.0507
+xgboost,subsample_7,Skin temp,0.0416,0.0502
+xgboost,subsample_7,SpO2,0.0148,0.0205
+xgboost,subsample_7,Sleep amount vs need,0.2937,0.2148
+xgboost,subsample_7,Sleep stages,0.0487,0.0592
+xgboost,subsample_7,Sleep quality,0.0368,0.0454
+xgboost,subsample_7,Sleep consistency,0.0181,0.0188
+xgboost,subsample_7,Prior load,0.027,0.0535
+xgboost,subsample_7,Day of week,0.0049,0.0125
+xgboost,subsample_8,HRV,0.4519,0.4316
+xgboost,subsample_8,Resting HR,0.046,0.0521
+xgboost,subsample_8,Respiratory rate,0.0165,0.03
+xgboost,subsample_8,Skin temp,0.0413,0.0566
+xgboost,subsample_8,SpO2,0.017,0.0242
+xgboost,subsample_8,Sleep amount vs need,0.3138,0.2227
+xgboost,subsample_8,Sleep stages,0.0362,0.0534
+xgboost,subsample_8,Sleep quality,0.0382,0.0517
+xgboost,subsample_8,Sleep consistency,0.0096,0.014
+xgboost,subsample_8,Prior load,0.022,0.0451
+xgboost,subsample_8,Day of week,0.0074,0.0186
+xgboost,subsample_9,HRV,0.4853,0.4397
+xgboost,subsample_9,Resting HR,0.0273,0.0372
+xgboost,subsample_9,Respiratory rate,0.0237,0.0372
+xgboost,subsample_9,Skin temp,0.0369,0.0484
+xgboost,subsample_9,SpO2,0.0177,0.03
+xgboost,subsample_9,Sleep amount vs need,0.2788,0.1968
+xgboost,subsample_9,Sleep stages,0.0583,0.0745
+xgboost,subsample_9,Sleep quality,0.03,0.0486
+xgboost,subsample_9,Sleep consistency,0.0134,0.0235
+xgboost,subsample_9,Prior load,0.0227,0.0468
+xgboost,subsample_9,Day of week,0.0059,0.0173
+xgboost,subsample_10,HRV,0.465,0.4419
+xgboost,subsample_10,Resting HR,0.0365,0.0433
+xgboost,subsample_10,Respiratory rate,0.021,0.0365
+xgboost,subsample_10,Skin temp,0.037,0.0477
+xgboost,subsample_10,SpO2,0.0215,0.0271
+xgboost,subsample_10,Sleep amount vs need,0.3159,0.2227
+xgboost,subsample_10,Sleep stages,0.0409,0.0647
+xgboost,subsample_10,Sleep quality,0.0209,0.0371
+xgboost,subsample_10,Sleep consistency,0.0129,0.018
+xgboost,subsample_10,Prior load,0.0226,0.044
+xgboost,subsample_10,Day of week,0.0059,0.0171
+xgboost,subsample_11,HRV,0.4828,0.457
+xgboost,subsample_11,Resting HR,0.0235,0.0367
+xgboost,subsample_11,Respiratory rate,0.0206,0.0362
+xgboost,subsample_11,Skin temp,0.0384,0.0474
+xgboost,subsample_11,SpO2,0.0232,0.0335
+xgboost,subsample_11,Sleep amount vs need,0.2927,0.2012
+xgboost,subsample_11,Sleep stages,0.0429,0.0613
+xgboost,subsample_11,Sleep quality,0.0303,0.0452
+xgboost,subsample_11,Sleep consistency,0.0122,0.016
+xgboost,subsample_11,Prior load,0.0289,0.0538
+xgboost,subsample_11,Day of week,0.0045,0.0116
+xgboost,subsample_12,HRV,0.4568,0.4401
+xgboost,subsample_12,Resting HR,0.0336,0.0496
+xgboost,subsample_12,Respiratory rate,0.0281,0.0452
+xgboost,subsample_12,Skin temp,0.0338,0.045
+xgboost,subsample_12,SpO2,0.0192,0.0262
+xgboost,subsample_12,Sleep amount vs need,0.3163,0.2157
+xgboost,subsample_12,Sleep stages,0.0437,0.0641
+xgboost,subsample_12,Sleep quality,0.0301,0.0442
+xgboost,subsample_12,Sleep consistency,0.0152,0.0214
+xgboost,subsample_12,Prior load,0.0183,0.0379
+xgboost,subsample_12,Day of week,0.0048,0.0106
+xgboost,subsample_13,HRV,0.4599,0.4434
+xgboost,subsample_13,Resting HR,0.0351,0.0457
+xgboost,subsample_13,Respiratory rate,0.0241,0.0425
+xgboost,subsample_13,Skin temp,0.0314,0.0454
+xgboost,subsample_13,SpO2,0.0185,0.0262
+xgboost,subsample_13,Sleep amount vs need,0.3258,0.2153
+xgboost,subsample_13,Sleep stages,0.0365,0.0496
+xgboost,subsample_13,Sleep quality,0.0294,0.0486
+xgboost,subsample_13,Sleep consistency,0.0077,0.0131
+xgboost,subsample_13,Prior load,0.0228,0.0478
+xgboost,subsample_13,Day of week,0.0088,0.0222
+xgboost,subsample_14,HRV,0.4794,0.4471
+xgboost,subsample_14,Resting HR,0.0293,0.0365
+xgboost,subsample_14,Respiratory rate,0.0207,0.0353
+xgboost,subsample_14,Skin temp,0.0468,0.0558
+xgboost,subsample_14,SpO2,0.0155,0.0244
+xgboost,subsample_14,Sleep amount vs need,0.2918,0.212
+xgboost,subsample_14,Sleep stages,0.0372,0.0573
+xgboost,subsample_14,Sleep quality,0.0362,0.0469
+xgboost,subsample_14,Sleep consistency,0.0066,0.0122
+xgboost,subsample_14,Prior load,0.0313,0.0603
+xgboost,subsample_14,Day of week,0.0052,0.0122
+xgboost,subsample_15,HRV,0.4814,0.4636
+xgboost,subsample_15,Resting HR,0.0276,0.0409
+xgboost,subsample_15,Respiratory rate,0.0243,0.0383
+xgboost,subsample_15,Skin temp,0.0272,0.0412
+xgboost,subsample_15,SpO2,0.016,0.0206
+xgboost,subsample_15,Sleep amount vs need,0.307,0.2123
+xgboost,subsample_15,Sleep stages,0.0611,0.0791
+xgboost,subsample_15,Sleep quality,0.0243,0.0448
+xgboost,subsample_15,Sleep consistency,0.0086,0.0143
+xgboost,subsample_15,Prior load,0.0177,0.0335
+xgboost,subsample_15,Day of week,0.0048,0.0113
+xgboost,subsample_16,HRV,0.4625,0.4367
+xgboost,subsample_16,Resting HR,0.033,0.0396
+xgboost,subsample_16,Respiratory rate,0.0224,0.0365
+xgboost,subsample_16,Skin temp,0.0435,0.0552
+xgboost,subsample_16,SpO2,0.014,0.0223
+xgboost,subsample_16,Sleep amount vs need,0.2897,0.2071
+xgboost,subsample_16,Sleep stages,0.0535,0.0671
+xgboost,subsample_16,Sleep quality,0.0373,0.0531
+xgboost,subsample_16,Sleep consistency,0.0115,0.018
+xgboost,subsample_16,Prior load,0.0261,0.0506
+xgboost,subsample_16,Day of week,0.0064,0.0138
+xgboost,subsample_17,HRV,0.4769,0.4547
+xgboost,subsample_17,Resting HR,0.03,0.0418
+xgboost,subsample_17,Respiratory rate,0.0204,0.0371
+xgboost,subsample_17,Skin temp,0.0354,0.0509
+xgboost,subsample_17,SpO2,0.0261,0.0324
+xgboost,subsample_17,Sleep amount vs need,0.3258,0.2385
+xgboost,subsample_17,Sleep stages,0.0388,0.0549
+xgboost,subsample_17,Sleep quality,0.0203,0.0324
+xgboost,subsample_17,Sleep consistency,0.006,0.0106
+xgboost,subsample_17,Prior load,0.0122,0.0262
+xgboost,subsample_17,Day of week,0.0083,0.0206
+xgboost,subsample_18,HRV,0.4699,0.4521
+xgboost,subsample_18,Resting HR,0.033,0.048
+xgboost,subsample_18,Respiratory rate,0.0232,0.0401
+xgboost,subsample_18,Skin temp,0.035,0.0448
+xgboost,subsample_18,SpO2,0.0144,0.0217
+xgboost,subsample_18,Sleep amount vs need,0.3199,0.2241
+xgboost,subsample_18,Sleep stages,0.0353,0.0523
+xgboost,subsample_18,Sleep quality,0.0323,0.043
+xgboost,subsample_18,Sleep consistency,0.0102,0.0202
+xgboost,subsample_18,Prior load,0.0225,0.0456
+xgboost,subsample_18,Day of week,0.0044,0.0079
+xgboost,subsample_19,HRV,0.4721,0.4532
+xgboost,subsample_19,Resting HR,0.0233,0.0346
+xgboost,subsample_19,Respiratory rate,0.0223,0.0402
+xgboost,subsample_19,Skin temp,0.0318,0.0445
+xgboost,subsample_19,SpO2,0.0212,0.0247
+xgboost,subsample_19,Sleep amount vs need,0.318,0.2181
+xgboost,subsample_19,Sleep stages,0.0457,0.062
+xgboost,subsample_19,Sleep quality,0.03,0.0527
+xgboost,subsample_19,Sleep consistency,0.0109,0.0169
+xgboost,subsample_19,Prior load,0.0223,0.0475
+xgboost,subsample_19,Day of week,0.0024,0.0058

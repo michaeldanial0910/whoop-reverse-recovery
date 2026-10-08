@@ -1,0 +1,94 @@
+M2 - INTERPRETABILITY & FORMULA RECONSTRUCTION: SUMMARY
+Generated from results/m2_*.csv (2026-10-08). One person's data; an approximation, not WHOOP's formula.
+
+WHAT WAS DONE
+- Data: 411 usable cycles (357 train / 54 held-out post-gap test). New rule since M1: a cycle is
+  excluded when the previous "nap" lasted more than 6 h. This catches a main sleep that WHOOP logged
+  as a nap; it excludes exactly one training cycle.
+- Formula model: ridge regression fitted on logit(recovery/100), using the Set B features. Recovery
+  is bounded 0-100. Plain ridge extrapolated to impossible values (-47 on one held-out night) when
+  HRV went outside the training range. The logit link saturates the way the real score does.
+- Attribution: exact grouped Shapley values in recovery points (src/attribution.py). The inputs form
+  11 groups, all 2^11 coalitions are enumerated, and every cycle shares one fixed reference B (the
+  mean prediction over 100 fixed training cycles). For every cycle the contributions sum exactly to
+  prediction - B. Day-over-day differences sum exactly to the change in prediction. The same method
+  is applied to both models.
+
+HELD-OUT TEST (pre-registered in preregistration_m2.json, commit 4ccf291 - NOT BLIND, see file)
+  Model                     MAE    R2
+  XGBoost, Set B            5.69   0.89
+  Formula (logit ridge)     6.56   0.82   <- all 4 checks pass (MAE<=8.5, R2>=0.75, gap to XGB<=2.0, R2<0.97)
+  Plain ridge (M1)          9.86   0.59
+  Always the mean          16.93   0.00
+
+WHAT MOVES THE SCORE (share of mean |contribution|; formula / XGBoost)
+  HRV                     48% / 50%   ~12.3 points per cycle on average, both models
+  Sleep amount vs need    23% / 29%
+  Sleep stages             9% /  4%
+  Resting HR               5% /  3%
+  Everything else         <=4% each (skin temp, prior load, day of week, sleep quality,
+                          consistency, respiratory rate, SpO2)
+  In all 25 stability refits, for both models, HRV ranks first and sleep amount vs need second.
+  Together these two account for about 71-79% of the attribution.
+
+DAY-TO-DAY MOVES (402 back-to-back cycle pairs; the attribution question from plan Appendix B)
+  Average share of a move: HRV 40% / 46%, sleep amount vs need 24% / 22%, sleep stages 11% / 6%.
+  The largest single driver of a move is HRV in 65% / 67% of moves and sleep amount in 30% / 27%.
+  The two models name the same top driver in 76% of moves.
+  On moves of 10+ points, HRV's share rises to 47% / 54%.
+
+THE RECONSTRUCTED FORMULA, READABLE (effect at a typical day, recovery ~65)
+  HRV +10 ms above your baseline        +10.1 points
+  Total sleep +1 h (sleep need fixed)    +4.2
+  Sleep need +1 h (sleep fixed)          -2.1
+  Prior-day strain +5                    -1.0
+  Resting HR +1 bpm above baseline       -0.4
+  The logit link makes each effect smaller near 0 and near 100. Individual coefficients
+  inside correlated inputs are not interpretable on their own. For example, deep sleep % and
+  disturbances per hour carry counter-intuitive signs (-1.8 and +1.7) that most likely absorb
+  correlation with sleep length. Read the groups, not single rows.
+
+A RULE RECOVERED EXACTLY
+  WHOOP's "sleep need from recent nap" equals minus the previous cycle's nap sleep, to the
+  millisecond, in all 412 M1 cycles. This was found while checking the outlier cycle whose sleep
+  was 6.4x its sleep need.
+
+INTERACTION: DOES SLEEP MATTER LESS WHEN HRV IS HIGH?
+  Slightly. An extra hour of sleep is worth ~3.2-3.3 points on high-HRV nights versus 3.7-4.5 on
+  low- and mid-HRV nights, and both models agree. In the formula model this comes purely from the
+  logit saturation, because its sleep and HRV effects are additive in logit units. XGBoost shows a
+  somewhat larger drop (4.5 -> 3.3) and a larger mean interaction (1.8 vs 1.2 points). But low and
+  mid HRV look alike, and each tercile holds only 137 cycles. That is weak evidence for anything
+  beyond saturation.
+
+STABILITY (Appendix C-7)
+  There are 25 refits: the 5 CV-fold training sets plus 20 random 80% subsamples. HRV's share
+  ranges 42-50% (formula) and 46-49% (XGBoost) across refits. Sleep amount ranges 19-24% and
+  29-33%. The full-data estimate can sit at the edge of these ranges, because every refit trains
+  on less data, and smaller-data models spread credit more thinly over minor groups.
+  The two models disagree most on sleep stages (formula 9%, XGBoost 4%) and day of week
+  (2.4% vs 0.7%). Treat any share under ~5% as "minor", not as a ranked finding.
+
+SANITY CHECK AGAINST WHOOP'S PUBLIC DESCRIPTION (whoop.com, "How does WHOOP Recovery work 101")
+  WHOOP lists HRV, resting HR, sleep performance (sleep you got vs sleep you need) and respiratory
+  rate, and says SpO2 and skin temperature are "included as well". It states that respiratory rate
+  "often doesn't impact your recovery" unless it changes significantly. It publishes no weights.
+  Consistent with the models: HRV and sleep-vs-need dominate, and respiratory rate, SpO2 and skin
+  temp are small (each 1-4%).
+  Different from what you might expect: resting HR carries only 3-5% once HRV is in the model.
+  RHR moves with HRV, so the HRV group likely absorbs much of its effect. That is a
+  credit-splitting limit, not evidence that RHR is unused.
+
+COACH COMPARISON: PENDING
+  No coach driver rankings have been logged yet. To start, copy templates/coach_log_template.csv to
+  data/coach_log.csv (git-ignored) and add a row each morning. Coach drivers such as "sleep debt"
+  may not map one-to-one onto these groups.
+
+LIMITS
+- This is attribution of the MODEL, not causation. "HRV accounts for 48%" does not mean raising
+  HRV by any means raises recovery by that much.
+- One person, 411 cycles. The test set is 54 cycles from one stretch, and it is not blind.
+- The reference B is 60.7 points (formula) / 58.9 (XGBoost). Per-cycle contributions are relative
+  to B, while day-over-day differences do not depend on it.
+- WHOOP's own sleep-need number is used as an input, so part of WHOOP's logic is inherited rather
+  than reconstructed.

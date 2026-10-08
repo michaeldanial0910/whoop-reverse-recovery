@@ -1,0 +1,14 @@
+change,logit_units,points_at_typical_day
+HRV +10 ms above baseline,0.4451,10.1268
+Resting HR +1 bpm above baseline,-0.0193,-0.4401
+Respiratory rate +1 rpm above baseline,-0.0138,-0.3143
+Skin temp +0.5 C above baseline,0.0205,0.4655
+SpO2 +1 %,0.0119,0.2697
+Total sleep +1 h (need unchanged),0.1828,4.1583
+Sleep need +1 h (sleep unchanged),-0.094,-2.1376
+Deep sleep +5 % of sleep (from light),-0.0808,-1.8376
+REM sleep +5 % of sleep (from light),0.0328,0.7471
+Sleep efficiency +5 %,0.0184,0.4183
+Disturbances +1 per hour,0.0768,1.7479
+Sleep consistency +10 %,-0.0179,-0.4071
+Prior-day strain +5,-0.0434,-0.9865

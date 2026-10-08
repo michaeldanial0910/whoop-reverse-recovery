@@ -1,0 +1,10 @@
+,value
+median_recovery,65.0
+points_per_logit_unit,22.75
+intercept_logit_at_medians,0.7273
+baseline_B_formula,60.7128
+baseline_B_xgboost,58.88
+top_driver_agreement_daily_moves,0.7612
+n_daily_moves,402.0
+background_size,100.0
+n_explained,411.0

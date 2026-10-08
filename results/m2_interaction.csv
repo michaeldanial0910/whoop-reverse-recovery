@@ -1,0 +1,9 @@
+model,hrv_tercile,n,sleep_points_per_hour,mean_abs_hrv_sleep_interaction
+formula,low HRV,137,3.6836,1.3488
+formula,mid HRV,137,3.96,0.8299
+formula,high HRV,137,3.1836,1.547
+formula,all,411,3.5951,1.2419
+xgboost,low HRV,137,4.4908,2.3258
+xgboost,mid HRV,137,4.405,0.8687
+xgboost,high HRV,137,3.3374,2.1805
+xgboost,all,411,4.1494,1.7917
