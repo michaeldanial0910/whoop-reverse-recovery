@@ -53,6 +53,8 @@ def add_previous_cycle_features(df):
     df["prev_cycle_contiguous"] = contiguous
     df["prior_strain"] = df["strain"].shift(1).where(contiguous)
     df["prior_nap_hours"] = df["nap_sleep_hours"].shift(1).where(contiguous)
+    # NOT a model feature -- only used by the "yesterday's score" naive baseline
+    df["prev_recovery_score"] = df["recovery_score"].shift(1).where(contiguous)
     return df
 
 
