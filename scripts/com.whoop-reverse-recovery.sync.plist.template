@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  macOS launchd job: runs src/sync.py once a day.
+
+  Install:
+    1. Replace every REPO_DIR below with the absolute path to this repo, and run
+       `mkdir -p logs` in the repo (launchd will not create the log folder).
+    2. cp scripts/com.whoop-reverse-recovery.sync.plist.template ~/Library/LaunchAgents/com.whoop-reverse-recovery.sync.plist
+    3. launchctl load ~/Library/LaunchAgents/com.whoop-reverse-recovery.sync.plist
+  Test now:   launchctl start com.whoop-reverse-recovery.sync   (then check logs/sync.log)
+  Uninstall:  launchctl unload ~/Library/LaunchAgents/com.whoop-reverse-recovery.sync.plist
+
+  If the Mac is asleep at the scheduled time, launchd runs the job when it wakes.
+  Linux: a cron line does the same, e.g.
+    15 16 * * * cd REPO_DIR && venv/bin/python src/sync.py >> logs/sync.log 2>&1
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.whoop-reverse-recovery.sync</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>REPO_DIR/venv/bin/python</string>
+    <string>REPO_DIR/src/sync.py</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>REPO_DIR</string>
+  <!-- pick a time after you normally wake up, so last night's recovery exists -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>16</integer>
+    <key>Minute</key>
+    <integer>15</integer>
+  </dict>
+  <key>StandardOutPath</key>
+  <string>REPO_DIR/logs/sync.log</string>
+  <key>StandardErrorPath</key>
+  <string>REPO_DIR/logs/sync.log</string>
+</dict>
+</plist>
