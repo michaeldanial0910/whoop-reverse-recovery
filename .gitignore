@@ -225,8 +225,9 @@ data/
 # macOS
 .DS_Store
 
-# private planning doc (contains unpublished drafts and third-party data notes)
-docs/Whoop_Recovery_Project_Plan.txt
+# private planning docs (unpublished drafts, third-party data notes)
+docs/Whoop_Recovery_Project_Plan.md
+docs/archive/
 
 # sync logs
 logs/
