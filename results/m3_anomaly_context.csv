@@ -1,0 +1,9 @@
+,metric,better than expected,not flagged,worse than expected
+prior_strain,median,10.693,9.802,10.216
+total_sleep_hours,median,5.732,7.543,3.557
+sleep_need_total_hours,median,9.039,8.772,9.29
+hrv_vs_baseline,median,-31.63,-0.224,5.611
+onset_shift_hours,median,1.985,0.061,-1.087
+onset_sd7_hours,median,0.42,1.091,0.957
+prev_day_activities,median,0.0,1.0,1.0
+max_input_robust_z,median,2.195,2.188,3.093

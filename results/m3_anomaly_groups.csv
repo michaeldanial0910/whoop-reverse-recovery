@@ -1,0 +1,12 @@
+group,top_group_freq_flagged,top_group_freq_all,mean_abs_pts_flagged,mean_abs_pts_all
+HRV,0.4118,0.7032,14.6866,12.324
+Resting HR,0.0,0.0024,1.6365,1.3377
+Respiratory rate,0.0,0.0,0.4407,0.41
+Skin temp,0.0,0.0,0.9156,0.7692
+SpO2,0.0,0.0,0.2589,0.3004
+Sleep amount vs need,0.5294,0.2676,11.6642,5.7604
+Sleep stages,0.0588,0.0219,3.8492,2.3135
+Sleep quality,0.0,0.0,0.6397,0.5401
+Sleep consistency,0.0,0.0,0.4736,0.4877
+Prior load,0.0,0.0,0.4419,0.6662
+Day of week,0.0,0.0049,0.6878,0.6563

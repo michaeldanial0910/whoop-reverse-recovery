@@ -1,0 +1,16 @@
+,value
+n_cycles,411.0
+n_train,357.0
+n_test,54.0
+oof_mae,6.6432
+oof_r2,0.8196
+robust_sd,7.4078
+threshold_points,18.5195
+n_flagged,17.0
+share_flagged,0.0414
+n_worse_than_expected,16.0
+n_better_than_expected,1.0
+share_flagged_train,0.042
+share_flagged_test,0.037
+median_abs_residual_flagged,21.9519
+expected_share_if_normal,0.0124
