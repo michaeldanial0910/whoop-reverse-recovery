@@ -1,0 +1,5 @@
+archetype,label,n_days,share_of_days,centroid_strain,centroid_activities,centroid_sleep_hours,median_activity_minutes,n_with_next,next_recovery_mean,next_recovery_ci_lo,next_recovery_ci_hi,next_residual_mean,next_residual_ci_lo,next_residual_ci_hi,next_sleep_hours_mean,next_hrv_pct_vs_baseline_mean
+2,"low strain, 0.2 activities, typical sleep",159,0.37,6.401,0.151,8.021,0.0,152,66.349,63.502,69.552,-1.306,-3.028,0.37,7.41,2.083
+0,"mid strain, 0.7 activities, short sleep",77,0.179,9.133,0.688,4.328,0.0,71,64.507,60.743,69.54,-2.582,-5.373,0.377,6.971,4.465
+1,"high strain, 1.4 activities, typical sleep",157,0.365,13.658,1.401,8.042,56.967,150,59.593,55.987,63.058,-0.393,-1.839,1.109,7.291,-3.04
+3,"high strain, 5.2 activities, short sleep",37,0.086,14.511,5.162,5.916,189.889,33,51.242,44.978,58.327,-2.553,-5.211,0.077,6.195,-5.787
