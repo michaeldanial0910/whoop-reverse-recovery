@@ -1,0 +1,102 @@
+M3 - ANOMALIES, SCHEDULE IRREGULARITY & DAY ARCHETYPES: SUMMARY
+Generated from results/m3_*.csv (2026-10-10). One person's data; associations, not causes.
+
+WHAT WAS DONE
+- Test window frozen: the evaluated test set stays the original 54 cycles (to 2026-09-26). The 12
+  usable cycles synced since then form a forward set. It is used nowhere in M3 and is kept for
+  M4 forward testing. M2's test numbers reproduce exactly on the frozen window.
+- Analysis set: 411 usable cycles (357 train + 54 test), as in M2.
+- New inputs (features.py):
+  - sleep-onset clock time, written as hours after 18:00 (05:00 = 29). No main sleep in the data
+    starts between 14:00 and 20:00, so this never wraps.
+  - circular SD of onset over the previous 7 calendar days (at least 5 nights needed)
+  - shift from the previous night's onset
+  - number of logged activities per cycle, every sport type including walks
+
+1. ANOMALY DETECTOR (decisions: robust SD, 10 contiguous blocks)
+  residual = actual - the formula model's out-of-fold prediction. Training cycles are predicted
+  by a model fitted on the other 9 of 10 time blocks; test cycles by the M2 train-fit model.
+  Out-of-fold fit on all 411 cycles: MAE 6.64 / R2 0.82.
+  Typical error = robust SD (1.4826 x MAD) = 7.41 points. Flag = |residual| > 2.5 x 7.41 = 18.5 points.
+
+  Flagged: 17 of 411 cycles (4.1%). A normal error distribution would flag 1.2%, so the tails are
+  heavy. 16 of the 17 came in WORSE than the model expected and 1 better. The median miss on a
+  flagged cycle is 22 points. The flag rate is similar in train (4.2%) and test (3.7%).
+
+  The anomalies are not random. They mark two shapes the formula model cannot represent:
+    Hours slept     < 4 h: mean residual -10.7, 32% flagged (n=28)
+                    6-7 h: +4.0;  7-8 h: 0.0;  > 9 h: -4.4
+    HRV vs baseline +30 to +45%: mean residual -11.9, 30% flagged (n=10)
+  (a) Very short sleep is punished harder than the model's smooth sleep effect allows. The 16
+      worse-than-expected cycles slept a median of 3.6 h, against 7.5 h for unflagged cycles.
+  (b) Sleeping past ~8 h earns less than the model credits, and 6-7 h earns more. This fits WHOOP
+      capping sleep credit once you reach your need (sleep performance tops out at 100%).
+  (c) HRV spikes far above baseline are credited less than the model's slope implies. This fits a
+      ceiling on HRV credit.
+  In flagged cycles, sleep amount vs need is the largest contribution 53% of the time, against 27%
+  over all cycles. HRV is the largest 41% of the time, against 70% overall.
+  These shapes are where the formula's biggest misses come from, and they point to a better
+  formula (see "Decision for Michael" below).
+  Per-cycle table (dates, values, the groups each prediction relied on, the most unusual input):
+  data/processed/m3_anomalies.csv (private).
+
+2. SCHEDULE IRREGULARITY (pre-registered: preregistration_m3.json, commit 1d86070, run after the commit)
+  OLS in recovery points on 400 complete cycles. Moving-block bootstrap (7-row blocks, 2000
+  resamples); Holm correction across the 3 timing terms.
+  TOTAL effect: controls are sleep amount & quality, prior load and day of week; HRV/RHR are not controlled.
+                                       coef (pts/unit)   95% CI           Holm p
+    7-night onset SD, per +1 h  (PRIMARY)    +0.90       [-1.86, +4.52]    0.56   -> FAIL
+    |shift from last night|, per 1 h         -0.99       [-2.36, -0.04]    0.12   (raw p 0.04)
+    onset clock time, per 1 h later          -0.56       [-1.55, +0.35]    0.44
+  DIRECT effect (+ HRV and RHR): every timing term is within 0.3 points of zero.
+
+  Verdict: the pre-registered hypothesis FAILS. There is no detectable penalty for an irregular
+  schedule once sleep amount and quality are held fixed. This is an informative null, not just
+  "not significant": the CI's lower end is -1.86 points per hour of SD. A typical swing in
+  irregularity (the IQR, 0.8 -> 1.5 h) would therefore cost at most ~1.4 points, so a large
+  irregularity effect is ruled out for this person.
+  Hint only, not a finding: a big night-to-night shift goes with ~1 point less recovery per hour of
+  shift (raw p 0.04, not significant after Holm). In the direct model it drops to 0.0, so whatever
+  effect exists runs through HRV/RHR.
+  Caveat: irregularity can also lower recovery THROUGH shorter or worse sleep, and that pathway is
+  controlled away by design. The question tested is "does timing matter beyond how much and how
+  well you slept".
+
+3. DAY ARCHETYPES (decisions: sleep that opened the day, all activities, raw + model-adjusted)
+  k-means on z-scored [day strain, number of activities, hours slept]; 430 days. Silhouette by
+  k = 2..6: 0.34 / 0.34 / 0.37 / 0.35 / 0.31, so k = 4 is chosen. Those scores mean modest
+  structure: real groups, but with soft edges. The clusters are very stable: median adjusted Rand
+  index 0.96 (5th percentile 0.86) across 50 refits on 80% subsamples.
+
+                                       days   strain  activities  sleep   next-day recovery   next-day residual
+    Rest day (laptop day)               159     6.4      0.2       8.0 h   66.3 [63.5, 69.6]   -1.3 [-3.0, +0.4]
+    Short-sleep day                      77     9.1      0.7       4.3 h   64.5 [60.7, 69.5]   -2.6 [-5.4, +0.4]
+    Active day                          157    13.7      1.4       8.0 h   59.6 [56.0, 63.1]   -0.4 [-1.8, +1.1]
+    Many-activities day                  37    14.5      5.2       5.9 h   51.2 [45.0, 58.3]   -2.6 [-5.2, +0.1]
+    (activities = centroid count; residual = actual - predicted for the NEXT cycle; mean residual
+     over all days is -1.3)
+
+  Next-day recovery differs across archetypes (Kruskal-Wallis p = 0.001). A many-activities day
+  is followed by ~15 points less recovery than a rest day. The model-adjusted residual does NOT
+  differ (p = 0.70). The gap is fully carried by what the model already sees on the next cycle:
+  after a many-activities day the next night is shorter (6.2 h vs 7.4 h) and HRV runs lower (-5.8%
+  vs +2.1% of baseline), along with the prior-strain input. Busy days do not hurt recovery through
+  any channel beyond those.
+  "Overreach" (strain >= 18): 21 days. They do not form their own cluster; they are split mostly
+  across the active and many-activities archetypes. Next-day recovery averages 49.3, and the
+  residual is +0.2, so again fully explained by the inputs.
+
+LIMITS
+- One person; observational. The archetype and timing results are associations.
+- The test set is not blind (see M2). The M3 analyses are descriptive or pre-registered on
+  train+test together; nothing in M3 re-evaluated the test.
+- The out-of-fold residuals for training cycles come from models that saw later data. That is fine
+  for spotting anomalies, but they are not forecasts.
+- Activity counts include walks that look auto-detected, so "number of activities" partly measures
+  how much the band noticed movement.
+
+DECISION FOR MICHAEL (not done; a model change needs a decision)
+  The anomaly analysis suggests a "formula v2": a sleep term capped at need (e.g. min(sleep/need, 1)
+  plus a short-sleep hinge below ~4-5 h) and an HRV ceiling (a hinge above ~+30%). The shapes
+  were found by looking at residuals that include the test period, so any v2 can only be judged
+  on CV plus the untouched forward set. It cannot be judged on the old test.
