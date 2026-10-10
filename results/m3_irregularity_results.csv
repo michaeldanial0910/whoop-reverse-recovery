@@ -1,0 +1,7 @@
+model,term,coef_points_per_unit,ci95_lo,ci95_hi,p_boot,p_holm,sd_of_term,n,points_per_1sd_of_term,primary_verdict
+total,onset_sd7_hours,0.8992,-1.8582,4.5215,0.557,0.557,0.6881,400,0.6187,FAIL
+total,onset_shift_abs_hours,-0.9922,-2.3595,-0.0382,0.04,0.12,1.5617,400,-1.5495,
+total,onset_hours,-0.5561,-1.55,0.3543,0.222,0.444,2.1238,400,-1.1809,
+direct,onset_sd7_hours,0.2534,-1.4767,2.0481,0.675,1.0,0.6881,400,0.1743,
+direct,onset_shift_abs_hours,-0.0076,-0.6932,0.6802,0.975,1.0,1.5617,400,-0.0118,
+direct,onset_hours,0.051,-0.5669,0.6253,0.951,1.0,2.1238,400,0.1083,

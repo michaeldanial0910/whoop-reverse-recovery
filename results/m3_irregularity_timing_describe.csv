@@ -1,0 +1,4 @@
+,mean,std,25%,50%,75%,onset_sd7_hours,onset_shift_abs_hours,onset_hours,total_sleep_hours,hrv_vs_baseline
+onset_sd7_hours,1.239,0.688,0.793,1.089,1.532,1.0,0.248,-0.083,0.236,0.048
+onset_shift_abs_hours,1.488,1.562,0.452,1.067,1.987,0.248,1.0,0.093,-0.002,-0.081
+onset_hours,27.987,2.124,26.684,28.194,29.314,-0.083,0.093,1.0,-0.314,-0.16
