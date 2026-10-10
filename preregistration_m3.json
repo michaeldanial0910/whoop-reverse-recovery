@@ -1,0 +1,32 @@
+{
+  "_purpose": "M3 schedule-irregularity test, fixed BEFORE the timing features were ever related to recovery. Before this was written, only the timing features' own distributions were inspected (median 7-night onset SD 1.1 h, IQR 0.8-1.6; correlation with WHOOP sleep_consistency_pct -0.19). No regression of recovery on timing was run.",
+  "decided_on": "2026-10-10",
+  "data": "all usable cycles in train + frozen test (forward set excluded), complete cases on the variables below, in time order",
+  "outcome": "recovery_score (points, 0-100), ordinary least squares",
+  "primary_hypothesis": "Higher variability of sleep onset over the previous 7 nights (onset_sd7_hours, circular SD in hours) predicts LOWER recovery, holding sleep amount and quality fixed (TOTAL effect: HRV and RHR are NOT controlled, because they are a likely pathway).",
+  "timing_terms": {
+    "onset_sd7_hours": "primary; hypothesised negative",
+    "onset_shift_abs_hours": "secondary; |tonight's onset - last night's onset|; two-sided",
+    "onset_hours": "secondary; onset clock time, hours after 18:00 (05:00 = 29); two-sided"
+  },
+  "controls_total_effect": ["total_sleep_hours", "sleep_need_total_hours", "sleep_efficiency_pct",
+                            "disturbances_per_hour", "prior_strain", "prior_nap_hours", "wake day-of-week one-hot"],
+  "controls_direct_effect_add": ["hrv_rmssd_milli", "hrv_vs_baseline", "hrv_pct_vs_baseline",
+                                 "resting_heart_rate", "rhr_vs_baseline"],
+  "excluded_from_controls": "sleep_consistency_pct (WHOOP's own timing measure; would partly control away the effect being tested)",
+  "inference": {
+    "method": "moving-block bootstrap over time-ordered rows (refit OLS on each resample)",
+    "block_length_rows": 7,
+    "n_resamples": 2000,
+    "seed": 42,
+    "p_value": "two-sided bootstrap p = 2 * min(share of resampled coefs <= 0, share >= 0)",
+    "multiple_testing": "Holm across the 3 timing terms of the TOTAL-effect model"
+  },
+  "pass_rule_primary": {
+    "max_coef_points_per_hour_sd": -2.0,
+    "max_holm_adjusted_p": 0.05,
+    "rule": "PASS only if the onset_sd7_hours coefficient is <= -2.0 points per +1 h of SD AND its Holm-adjusted p < 0.05 (so its CI excludes 0). Otherwise FAIL, reported as such."
+  },
+  "direct_effect": "reported alongside (same bootstrap), no pass/fail",
+  "claims": "association in observational data from one person; not causation"
+}

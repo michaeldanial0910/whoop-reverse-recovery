@@ -8,6 +8,8 @@ WHOOP computes that cycle's recovery score (i.e. at wake-up):
 
 Run normalize_data.py first.
 """
+import json
+
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -15,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 IN_PATH = ROOT / "data" / "processed" / "cycles_dataset.csv"
 OUT_PATH = ROOT / "data" / "processed" / "features.csv"
+WORKOUTS_PATH = ROOT / "data" / "raw" / "workouts.json"
 
 CONFIG = {
     # personal baseline: calendar window over previous cycles (gap-safe: a 13-day
@@ -26,6 +29,10 @@ CONFIG = {
     "contiguity_tolerance": pd.Timedelta("1h"),
     # first cycle of the held-out test period (post device-gap stretch, local time)
     "test_start_local": "2026-07-30",
+    # end (exclusive) of the held-out test period, frozen in M3 so the evaluated test set stays
+    # the original 54 cycles. Later cycles form the FORWARD set: neither trained on nor part of
+    # the evaluated test (reserved for forward testing with a frozen model).
+    "test_end_local": "2026-09-27",
     # recovery scores treated as unusable (Michael's decision 2026-10-03)
     "drop_scores": [1.0],
     # a "nap" longer than this is almost certainly a main sleep WHOOP misclassified
@@ -34,6 +41,15 @@ CONFIG = {
     # WHOOP's nap credit equals the previous cycle's nap sleep exactly, so the next
     # cycle's sleep-need inputs are corrupted -> exclude that next cycle.
     "max_plausible_nap_hours": 6.0,
+    # --- M3 sleep-timing features (decided 2026-10-10) ---
+    # onset clock time is written as hours after this hour of the previous day, so a 05:00
+    # onset = 29 and there is no midnight wrap. 18:00 sits in the empty part of the clock:
+    # no main sleep in the data starts between 14:00 and 20:00.
+    "onset_day_cut_hour": 18,
+    # onset variability = circular SD of onsets in the previous 7 calendar days (tonight
+    # excluded), only when at least 5 nights fall in that window
+    "onset_window": "7D",
+    "onset_min_nights": 5,
 }
 
 BASELINE_COLS = {
@@ -97,6 +113,53 @@ def add_calendar_features(df):
     return df
 
 
+def add_timing_features(df):
+    """M3 schedule-irregularity inputs, from the main sleep that opens each cycle.
+
+    onset_hours        clock time of sleep onset, hours after `onset_day_cut_hour` of the
+                       previous day (05:00 -> 29). Linear, no midnight wrap.
+    onset_sd7_hours    circular SD of onset over the previous 7 calendar days (tonight
+                       excluded), in hours. Circular so 23:30 and 00:30 are 1 h apart, not 23.
+    onset_shift_hours  tonight's onset minus the previous cycle's onset (back-to-back cycles
+                       only); positive = later than last night.
+    Uses every recorded sleep, including cycles later excluded from modelling.
+    """
+    start = df["sleep_start_local"]
+    clock = start.dt.hour + start.dt.minute / 60 + start.dt.second / 3600
+    cut = CONFIG["onset_day_cut_hour"]
+    df["onset_hours"] = np.where(clock < cut, clock + 24, clock)
+    angle = clock / 24 * 2 * np.pi
+    trig = pd.DataFrame({"c": np.cos(angle).to_numpy(), "s": np.sin(angle).to_numpy()},
+                        index=pd.DatetimeIndex(start))
+    trig = trig[trig.index.notna()].sort_index()
+    roll = trig.rolling(CONFIG["onset_window"], closed="left", min_periods=CONFIG["onset_min_nights"])
+    R = np.hypot(roll["c"].mean(), roll["s"].mean()).clip(upper=1.0)
+    sd = np.sqrt(-2 * np.log(R)) * 24 / (2 * np.pi)       # circular SD, radians -> hours
+    sd = sd[~sd.index.duplicated()]
+    df["onset_sd7_hours"] = sd.reindex(start).to_numpy()
+    df["onset_shift_hours"] = (df["onset_hours"] - df["onset_hours"].shift(1)).where(df["prev_cycle_contiguous"])
+    return df
+
+
+def add_activity_features(df):
+    """M3: logged activities (WHOOP workouts) whose start falls inside each cycle.
+
+    All sport types count, including auto-detected-looking 'walking' and generic 'activity'
+    (decided 2026-10-10: leaving the house is the signal; strain already carries intensity).
+    These describe the DAY of the cycle, i.e. they happen after that cycle's recovery score.
+    """
+    w = pd.DataFrame(json.loads(WORKOUTS_PATH.read_text()))
+    w_start = pd.to_datetime(w["start"], utc=True)
+    w_minutes = (pd.to_datetime(w["end"], utc=True) - w_start).dt.total_seconds() / 60
+    starts = df["cycle_start_utc"].to_numpy()
+    ends = df["cycle_end_utc"].fillna(pd.Timestamp.max.tz_localize("UTC")).to_numpy()
+    idx = np.searchsorted(starts, w_start.to_numpy(), side="right") - 1
+    inside = (idx >= 0) & (w_start.to_numpy() < ends[idx.clip(0)])
+    df["n_activities"] = np.bincount(idx[inside], minlength=len(df))
+    df["activity_minutes"] = np.bincount(idx[inside], weights=w_minutes[inside], minlength=len(df))
+    return df
+
+
 def add_exclusion_flags(df):
     reason = pd.Series("", index=df.index)
     reason[df["recovery_score"].isna()] = "no_recovery"
@@ -106,7 +169,9 @@ def add_exclusion_flags(df):
     reason[(reason == "") & misclassified] = "prior_nap_misclassified"
     reason[(reason == "") & df["hrv_baseline"].isna()] = "no_baseline_yet"
     df["exclude_reason"] = reason
-    df["is_test"] = df["cycle_start_local"] >= pd.Timestamp(CONFIG["test_start_local"])
+    start = df["cycle_start_local"]
+    df["is_forward"] = start >= pd.Timestamp(CONFIG["test_end_local"])
+    df["is_test"] = (start >= pd.Timestamp(CONFIG["test_start_local"])) & ~df["is_forward"]
     return df
 
 
@@ -116,13 +181,17 @@ def main():
     df = add_personal_baselines(df)
     df = add_sleep_features(df)
     df = add_calendar_features(df)
+    df = add_timing_features(df)
+    df = add_activity_features(df)
     df = add_exclusion_flags(df)
     df.to_csv(OUT_PATH, index=False)
 
     usable = df[df["exclude_reason"] == ""]
     print(f"Saved {len(df)} cycles to {OUT_PATH}")
     print("Excluded:", df.loc[df["exclude_reason"] != "", "exclude_reason"].value_counts().to_dict())
-    print(f"Usable: {len(usable)}  (train {(~usable['is_test']).sum()}, test {usable['is_test'].sum()})")
+    n_train = (~usable["is_test"] & ~usable["is_forward"]).sum()
+    print(f"Usable: {len(usable)}  (train {n_train}, test {usable['is_test'].sum()}, "
+          f"forward {usable['is_forward'].sum()})")
     missing = usable.isna().sum()
     print("Missing values in usable rows:", missing[missing > 0].to_dict())
 

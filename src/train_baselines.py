@@ -100,6 +100,8 @@ def load_data():
     df = df[df["exclude_reason"].isna()].sort_values("cycle_start_local").reset_index(drop=True)
     dow = pd.get_dummies(df["wake_day_of_week"].astype(int), prefix="dow").astype(float)
     df = pd.concat([df, dow.reindex(columns=CALENDAR, fill_value=0.0)], axis=1)
+    # forward-set cycles (after the frozen test window) are in neither train nor test
+    df = df[~df["is_forward"]]
     return df[~df["is_test"]].reset_index(drop=True), df[df["is_test"]].reset_index(drop=True)
 
 
