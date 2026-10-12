@@ -36,7 +36,7 @@ WHAT WAS DONE
   In flagged cycles, sleep amount vs need is the largest contribution 53% of the time, against 27%
   over all cycles. HRV is the largest 41% of the time, against 70% overall.
   These shapes are where the formula's biggest misses come from, and they point to a better
-  formula (see "Decision for Michael" below).
+  formula (see "Open decision" below).
   Per-cycle table (dates, values, the groups each prediction relied on, the most unusual input):
   data/processed/m3_anomalies.csv (private).
 
@@ -95,7 +95,7 @@ LIMITS
 - Activity counts include walks that look auto-detected, so "number of activities" partly measures
   how much the band noticed movement.
 
-DECISION FOR MICHAEL (not done; a model change needs a decision)
+OPEN DECISION (not done; a model change needs a decision)
   The anomaly analysis suggests a "formula v2": a sleep term capped at need (e.g. min(sleep/need, 1)
   plus a short-sleep hinge below ~4-5 h) and an HRV ceiling (a hinge above ~+30%). The shapes
   were found by looking at residuals that include the test period, so any v2 can only be judged
