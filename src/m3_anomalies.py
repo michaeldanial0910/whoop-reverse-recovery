@@ -64,7 +64,7 @@ def main():
 
     # --- attribution with the model that made each prediction --------------
     rng = np.random.default_rng(tb.SEED)        # same draw as attribution.py -> same background
-    bg = train[COLS].iloc[rng.choice(len(train), CONFIG["background_size"], replace=False)].to_numpy(float)
+    bg = train[COLS].iloc[rng.choice(len(train), min(CONFIG["background_size"], len(train)), replace=False)].to_numpy(float)
     explainer = at.GroupShapley(COLS, at.GROUPS, bg)
     names = explainer.names
     phi = np.zeros((len(rows), len(names)))

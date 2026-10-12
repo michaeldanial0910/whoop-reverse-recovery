@@ -198,7 +198,7 @@ def main():
     rng = np.random.default_rng(CONFIG["seed"])
 
     train, test, rows = load_all()
-    bg_idx = rng.choice(len(train), CONFIG["background_size"], replace=False)
+    bg_idx = rng.choice(len(train), min(CONFIG["background_size"], len(train)), replace=False)
     background = train[COLS].iloc[bg_idx].to_numpy(dtype=float)
     explainer = GroupShapley(COLS, GROUPS, background)
     names = explainer.names
@@ -272,7 +272,7 @@ def main():
     stab = pd.DataFrame()
     if not args.quick:
         fits = [("fold", i, train.iloc[tr_idx]) for i, (tr_idx, _) in
-                enumerate(tb.TimeSeriesSplit(**tb.CV_CONFIG).split(train))]
+                enumerate(tb.cv_splitter(len(train)).split(train))]
         n_sub = int(CONFIG["subsample_frac"] * len(train))
         fits += [("subsample", b, train.iloc[np.sort(rng.choice(len(train), n_sub, replace=False))])
                  for b in range(CONFIG["n_subsamples"])]

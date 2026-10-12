@@ -27,12 +27,16 @@ CONFIG = {
     # a previous cycle only counts as "previous" if it ended within this tolerance
     # of the current cycle's start (otherwise there was a gap in between)
     "contiguity_tolerance": pd.Timedelta("1h"),
-    # first cycle of the held-out test period (post device-gap stretch, local time)
-    "test_start_local": "2026-07-30",
-    # end (exclusive) of the held-out test period, frozen in M3 so the evaluated test set stays
-    # the original 54 cycles. Later cycles form the FORWARD set: neither trained on nor part of
-    # the evaluated test (reserved for forward testing with a frozen model).
-    "test_end_local": "2026-09-27",
+    # held-out test split. On the first run the LAST `test_fraction` of usable cycles becomes the
+    # test set and the split dates are saved to data/split.json (private). Later runs reuse that
+    # file, so the test set stays frozen and newly synced cycles land in the FORWARD set (neither
+    # trained on nor evaluated; reserved for forward testing with a frozen model).
+    # To pin your own dates, edit data/split.json: {"test_start_local": ..., "test_end_local": ...}.
+    "split_file": ROOT / "data" / "split.json",
+    "test_fraction": 0.15,
+    # below this many usable cycles the models are not worth fitting (~2-3 months of wear,
+    # after the first ~2 weeks spent building a personal baseline)
+    "min_usable_cycles": 60,
     # recovery scores treated as unusable (Michael's decision 2026-10-03)
     "drop_scores": [1.0],
     # a "nap" longer than this is almost certainly a main sleep WHOOP misclassified
@@ -169,10 +173,38 @@ def add_exclusion_flags(df):
     reason[(reason == "") & misclassified] = "prior_nap_misclassified"
     reason[(reason == "") & df["hrv_baseline"].isna()] = "no_baseline_yet"
     df["exclude_reason"] = reason
+    split = resolve_split(df)
     start = df["cycle_start_local"]
-    df["is_forward"] = start >= pd.Timestamp(CONFIG["test_end_local"])
-    df["is_test"] = (start >= pd.Timestamp(CONFIG["test_start_local"])) & ~df["is_forward"]
+    df["is_forward"] = start >= pd.Timestamp(split["test_end_local"])
+    df["is_test"] = (start >= pd.Timestamp(split["test_start_local"])) & ~df["is_forward"]
     return df
+
+
+def resolve_split(df):
+    """Test-window dates: reuse data/split.json if present, otherwise derive them from this
+    person's own data (last `test_fraction` of usable cycles) and save them."""
+    path = CONFIG["split_file"]
+    if path.exists():
+        return json.loads(path.read_text())
+    usable = df.loc[df["exclude_reason"] == "", "cycle_start_local"].sort_values().reset_index(drop=True)
+    n = len(usable)
+    if n < CONFIG["min_usable_cycles"]:
+        raise SystemExit(
+            f"Only {n} usable cycles so far; at least {CONFIG['min_usable_cycles']} are needed "
+            f"(roughly 2-3 months of wear, after ~2 weeks of baseline-building). Keep wearing the "
+            f"band, run the sync again later, and the analysis will work.")
+    first_test = usable.iloc[int(np.floor(n * (1 - CONFIG["test_fraction"])))]
+    split = {
+        "test_start_local": first_test.isoformat(),
+        # exclusive end just after the last cycle seen today; everything synced later is FORWARD
+        "test_end_local": (usable.iloc[-1] + pd.Timedelta(minutes=1)).isoformat(),
+        "created": pd.Timestamp.now().isoformat(timespec="seconds"),
+        "rule": f"last {CONFIG['test_fraction']:.0%} of {n} usable cycles",
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(split, indent=2))
+    print(f"Test split saved to {path}: {split['rule']}")
+    return split
 
 
 def main():

@@ -44,6 +44,13 @@ TARGET = "recovery_score"
 SEED = 42
 
 CV_CONFIG = {"n_splits": 5, "test_size": 40}        # 5 expanding folds, 40 cycles each
+
+
+def cv_splitter(n_train):
+    """5 expanding folds of 40 cycles; folds shrink for shorter histories so every fold still has
+    a training block at least as large as its validation block."""
+    size = min(CV_CONFIG["test_size"], n_train // (CV_CONFIG["n_splits"] + 1))
+    return TimeSeriesSplit(n_splits=CV_CONFIG["n_splits"], test_size=size)
 MODEL_KINDS = ["ridge", "logit_ridge", "xgboost"]
 LOGIT_EPS = 0.5                                     # clip to [0.5, 99.5] so logit stays finite
 
@@ -124,7 +131,7 @@ def score(y_true, y_pred):
 
 
 def run_cv(train):
-    splitter = TimeSeriesSplit(**CV_CONFIG)
+    splitter = cv_splitter(len(train))
     fold_rows, oof_rows = [], []
     for fold, (tr_idx, va_idx) in enumerate(splitter.split(train)):
         tr, va = train.iloc[tr_idx], train.iloc[va_idx]
